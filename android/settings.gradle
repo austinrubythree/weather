@@ -1,0 +1,3 @@
+rootProject.name = 'minimalist_weather'
+
+include ':app'
