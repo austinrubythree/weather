@@ -1,13 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Animated } from 'react-native';
+
+// const { Lottie } = DangerZone;
 
 import { API_KEY } from './utils/WeatherAPIKey';
 
@@ -15,7 +9,7 @@ import Weather from './components/Weather';
 
 export default class App extends React.Component {
   state = {
-    isLoading: false,
+    isLoading: true,
     temperature: 0,
     weatherCondition: null,
     error: null
@@ -28,19 +22,19 @@ export default class App extends React.Component {
       },
       error => {
         this.setState({
-          error: 'Error Gettig Weather Condtions'
+          error: 'Error Getting Weather Condtions'
         });
       }
     );
   }
 
-  fetchWeather(lat = 37.702082, lon = -121.926110) {
+  fetchWeather(lat, lon) {
     fetch(
       `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=metric`
     )
       .then(res => res.json())
       .then(json => {
-        console.log(json);
+        // console.log(json);
         this.setState({
           temperature: json.main.temp,
           weatherCondition: json.weather[0].main,
@@ -54,11 +48,11 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         {isLoading ? (
-        <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Fetching The Weather</Text>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.loadingText}>Fetching The Weather</Text>
           </View>
         ) : (
-        <Weather weather={weatherCondition} temperature={temperature}/>
+          <Weather weather={weatherCondition} temperature={temperature} />
         )}
       </View>
     );
